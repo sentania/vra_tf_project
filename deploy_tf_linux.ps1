@@ -50,8 +50,10 @@ $varfiles = Get-ChildItem -Path . -Filter *.tfvars
 foreach ($varfile in $varfiles)
 {
 $basename = $varfile.BaseName
-& /usr/local/bin/terraform init
-& /usr/local/bin/terraform plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project.$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
-& /usr/local/bin/terraform apply -state="/var/lib/jenkins/terraform/vra_tf_project.$basename.tfstate" -input=false $basename-plan
+& /usr/local/bin/terraform.12.26 --version
+& /usr/local/bin/terraform.12.26 init
+& /usr/local/bin/terraform.12.26 providers
+& /usr/local/bin/terraform.12.26 plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project.$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
+& /usr/local/bin/terraform.12.26 apply -state="/var/lib/jenkins/terraform/vra_tf_project.$basename.tfstate" -input=false $basename-plan
 }
 
