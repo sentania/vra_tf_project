@@ -1,24 +1,14 @@
 node () {
 
-env.
-
 deleteDir()
 
       stage ('Checkout Build Code') {
          checkout scm
        }
 
-      stage ('Get vRA Token Image'){
-        sh 'get_token.sh'
+      stage ('Execute deploy_tf.ps1') {
+        withCredentials([usernamePassword(credentialsId: 'vRA_System_Admin',
+        usernameVariable: 'vRAUserName', passwordVariable: 'vRAPassword')
+        
+        sh '/bin/pwsh deploy_tf_linux.ps1 -vrauser $vRAUserName -vRApassword $VRAPassword -vRAServer vra8.lab.sentania.net'
       }
-
-      stage ('Terrraform Init')
-      {
-        sh '/usr/bin/terraform.12.26 init'
-      }
-
-      stage ('Terrraform Plan')
-      {
-        sh '/usr/bin/terraform.12.26 plan -var refresh_token="$VRA_REFRESH_TOKEN" -out myplan '
-      }
-}

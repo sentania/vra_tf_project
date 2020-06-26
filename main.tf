@@ -10,15 +10,15 @@ data "vra_zone" "this" {
 resource "vra_project" "this" {
 
   name        = var.project_name
-  description = "terraform test project"
+  description = var.description
 
   zone_assignments {
     zone_id          = data.vra_zone.this.id
-    priority         = 1
-    max_instances    = 2
-    cpu_limit        = 128
-    memory_limit_mb  = 256
-    storage_limit_gb = 8192
+    priority         = var.priority
+    max_instances    = var.max_instances
+    cpu_limit        = var.cpu_limit
+    memory_limit_mb  = var.memory_limit_mb
+    storage_limit_gb = var.storage_limit_gb
   }
 
   shared_resources = true
