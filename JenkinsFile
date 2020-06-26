@@ -9,7 +9,7 @@ deleteDir()
         withCredentials([usernamePassword(credentialsId: 'vRA_System_Admin',
         usernameVariable: 'vRAUserName', passwordVariable: 'vRAPassword')]) {
         stage ('Execute deploy_tf.ps1') {
-        sh '/bin/pwsh deploy_tf_linux.ps1 -vrauser $vRAUserName -vRApassword $VRAPassword -vRAServer vra8.lab.sentania.net'
+        sh '/bin/pwsh deploy_tf_linux.ps1 -vrauser $vRAUserName -vRApassword $vRAPassword -vRAServer vra8.lab.sentania.net'
         }
     }
 }
