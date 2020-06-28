@@ -23,7 +23,8 @@
 param (
     [Parameter(Mandatory=$true)][string]$vRAUser,
     [Parameter(Mandatory=$true)][string]$vRApassword,
-    [Parameter(Mandatory=$true)][string]$vRAServer
+    [Parameter(Mandatory=$true)][string]$vRAServer,
+    [Parameter(Mandatory=$true)][string]$statePath
 
 )
 
@@ -46,68 +47,40 @@ $ENV:VRA_REFRESH_TOKEN=$resp.refresh_token
 $refresh_token = $resp.refresh_token
 
 $varfiles = Get-ChildItem -Path . -Filter *.tfvars
-$tfstateFiles = get-childitem -path /var/lib/jenkins/terraform/vra_tf_project/ -Filter *.tfstate
+$tfstateFiles = get-childitem -path $statePath -Filter *.tfstate
+if ( [environment]::OSVersion.Platform -eq 'Unix')
+    {
+        $path = '/usr/local/bin/terraform.12.26'
+        Write-host "Linux system detected - setting path to: $path"
+        
+    }
+
+    elseif ( [environment]::OSVersion.Platform -eq 'Win32NT')
+    {
+        $path = 'C:\utils\terraform.exe'
+        Write-host "Windows system detected - setting path to: $path"
+        
+    }
+
+    else {
+        Write-host "Unable to determine operating system"
+        break;
+    }
 foreach ($varfile in $varfiles)
 {
     if ($tfstatefiles | Where-Object {$varfile.basename -contains $_.basename})
     {
-        if ( [environment]::OSVersion.Platform -eq 'Unix')
-        {
-            $basename = $varfile.BaseName
-            & /usr/local/bin/terraform.12.26 --version
-            & /usr/local/bin/terraform.12.26 init
-            & /usr/local/bin/terraform.12.26 providers
-            & /usr/local/bin/terraform.12.26 plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
-            & /usr/local/bin/terraform.12.26 apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
-        }
-
-        elseif ( [environment]::OSVersion.Platform -eq 'Win32NT')
-        {
-            $basename = $varfile.BaseName
-            & /usr/local/bin/terraform.12.26 --version
-            & /usr/local/bin/terraform.12.26 init
-            & /usr/local/bin/terraform.12.26 providers
-            & /usr/local/bin/terraform.12.26 plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
-            & /usr/local/bin/terraform.12.26 apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
-        }
-
-        else {
-            Write-host "Unable to determine operating system"
-            break;
-        }
+        
+        Write-host "Applying terraform configuration"
+        $basename = $varfile.BaseName
+        & $path --version
+        & $path init
+        & $path providers
+        & $path plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
+        & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
     }
     elseif ($tfstatefiles | Where-Object {$varfile.basename -notcontains $_.basename})
     {
-        {
-            if ( [environment]::OSVersion.Platform -eq 'Unix')
-            {
-                $basename = $varfile.BaseName
-                & /usr/local/bin/terraform.12.26 --version
-                & /usr/local/bin/terraform.12.26 init
-                & /usr/local/bin/terraform.12.26 providers
-                & /usr/local/bin/terraform.12.26 plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
-                & /usr/local/bin/terraform.12.26 destroy -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
-            }
-    
-            elseif ( [environment]::OSVersion.Platform -eq 'Win32NT')
-            {
-                $basename = $varfile.BaseName
-                & /usr/local/bin/terraform.12.26 --version
-                & /usr/local/bin/terraform.12.26 init
-                & /usr/local/bin/terraform.12.26 providers
-                & /usr/local/bin/terraform.12.26 plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
-                & /usr/local/bin/terraform.12.26 destroy -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
-            }
-    
-            else {
-                Write-host "Unable to determine operating system"
-                break;
-            }
-        }
+        Write-host "Detected that clean up is needed."
     }
-}
-
-foreach ($tfstateFile in $tfstateFiles)
-{
-
 }
