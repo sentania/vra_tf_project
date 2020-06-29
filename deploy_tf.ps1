@@ -74,12 +74,14 @@ foreach ($varfile in $varfiles)
 }    
 foreach ($varfile in $varfiles)
 {       
+        
         Write-host "Applying terraform configuration"
         $basename = $varfile.BaseName
+        $stateFilePath = "$statePath/$basename.tfstate"
         & $path --version
         & $path init
         & $path providers
-        & $path plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
+        & $path plan -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$basename-plan"
         & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
 }
 
@@ -92,6 +94,7 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path destroy -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false
+        & $path plan -state="$stateFilePath" -var refresh_token="$refresh_token" -var insecure="false" -var url="https://vra8.lab.sentania.net/" -out "$basename-plan"
+        & $path destroy -state="$stateFilePath" -input=false
     }
 }
