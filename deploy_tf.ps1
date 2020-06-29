@@ -96,6 +96,6 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path destroy -state="$stateFilePath" -var refresh_token="$refresh_token" -var insecure="false" -var url="https://vra8.lab.sentania.net/" -input=false -auto-approve $statepath/$basename-destroy-plan
+        & $path apply -state="$stateFilePath" -var refresh_token="$refresh_token" -var insecure="false" -var url="https://vra8.lab.sentania.net/" -input=false -auto-approve $statepath/$basename-destroy-plan
     }
 }
