@@ -81,8 +81,10 @@ foreach ($varfile in $varfiles)
         & $path --version
         & $path init
         & $path providers
-        & $path plan -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$basename-plan"
-        & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
+        & $path plan -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$basename-maintain-plan"
+        & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-maintain-plan
+        #to ensure we can cleanly destory things in the future
+        & $path plan -destroy -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$basename-destroy-plan"
 }
 
 foreach ($tfstateFile in $tfstateFiles)
@@ -94,6 +96,6 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path destroy -state="$stateFilePath" -var refresh_token="$refresh_token" -var insecure="false" -var url="https://vra8.lab.sentania.net/" -input=false -auto-approve
+        & $path destroy -state="$stateFilePath" -var refresh_token="$refresh_token" -var insecure="false" -var url="https://vra8.lab.sentania.net/" -input=false -auto-approve $basename-destory-plan
     }
 }
