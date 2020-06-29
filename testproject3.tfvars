@@ -8,3 +8,5 @@ cpu_limit        = 64
 memory_limit_mb  = 81920
 storage_limit_gb = 81920
 description = "This is a project created with TF"
+administrators = ["vradmins@int.sentania.net"]
+users = ["vrausers@int.sentania.net"]

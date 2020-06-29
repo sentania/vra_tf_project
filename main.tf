@@ -23,10 +23,9 @@ resource "vra_project" "this" {
 
   shared_resources = true
 
-  administrators = ["vraadmins@int.sentania.net"]
+  administrators = var.administrators
 
-  members = ["vrausers@int.sentania.net"]
-
+  members = var.users
   operation_timeout = 6000
 
   machine_naming_template = "$${resource.name}-$${####}"

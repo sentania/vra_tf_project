@@ -18,3 +18,5 @@ variable "cpu_limit" {}
 variable "memory_limit_mb" {}
 variable "storage_limit_gb" {}
 variable "description" {}
+variable "administrators" {}
+variable "users" {}
