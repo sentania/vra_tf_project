@@ -66,11 +66,14 @@ if ( [environment]::OSVersion.Platform -eq 'Unix')
         Write-host "Unable to determine operating system"
         break;
     }
+$varfilesCount = $varfiles.count
+Write-host "$varfilesCount var files found:"
 foreach ($varfile in $varfiles)
 {
-    if ($tfstatefiles | Where-Object {$varfile.basename -contains $_.basename})
-    {
-        
+    Write-host "$varfile.basename"
+}    
+foreach ($varfile in $varfiles)
+{       
         Write-host "Applying terraform configuration"
         $basename = $varfile.BaseName
         & $path --version
@@ -78,9 +81,12 @@ foreach ($varfile in $varfiles)
         & $path providers
         & $path plan -var-file="$varfile" -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -var refresh_token="$refresh_token" -out "$basename-plan"
         & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
-    }
-    elseif ($tfstatefiles | Where-Object {$varfile.basename -notcontains $_.basename})
+}
+
+foreach ($tfstateFile in $tfstateFiles)
+{
+    if ($tfstatefile | Where-Object {$varfiles.basename -notcontains $_.basename})
     {
-        Write-host "Detected that clean up is needed."
+        Write-host "Detected that clean up is needed $tfstatefile"
     }
 }
