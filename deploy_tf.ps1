@@ -84,7 +84,7 @@ foreach ($varfile in $varfiles)
         & $path plan -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$statepath/$basename-maintain-plan"
         & $path apply -state="$stateFilePath" -input=false $statepath/$basename-maintain-plan
         #to ensure we can cleanly destory things in the future
-        & $path plan -destroy -state="$stateFilePath-destroy" -var-file="$varfile" -var refresh_token="$refresh_token" -out "$statepath/$basename-destroy-plan"
+        & $path plan -destroy -state="$statePath-$basename-destroy.tfstate" -var-file="$varfile" -var refresh_token="$refresh_token" -out "$statepath/$basename-destroy-plan"
 }
 
 foreach ($tfstateFile in $tfstateFiles)
@@ -96,6 +96,6 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path apply -state="$stateFilePath-destroy" -input=false -auto-approve $statepath/$basename-destroy-plan
+        & $path apply -state="$statePath-$basename-destroy.tfstate" -input=false -auto-approve $statepath/$basename-destroy-plan
     }
 }
