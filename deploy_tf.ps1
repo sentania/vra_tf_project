@@ -92,6 +92,6 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path destroy -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
+        & $path destroy -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false
     }
 }
