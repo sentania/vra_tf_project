@@ -96,6 +96,6 @@ foreach ($tfstateFile in $tfstateFiles)
         & $path --version
         & $path init
         & $path providers
-        & $path apply -state="$stateFilePath" -input=false -auto-approve $statepath/$basename-destroy-plan
+        & $path apply -input=false -auto-approve $statepath/$basename-destroy-plan
     }
 }
