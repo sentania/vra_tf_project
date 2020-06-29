@@ -84,7 +84,7 @@ foreach ($varfile in $varfiles)
         & $path plan -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$statepath/$basename-maintain-plan"
         & $path apply -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $statepath/$basename-maintain-plan
         #to ensure we can cleanly destory things in the future
-        & $path plan -destroy -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$state/path/$basename-destroy-plan"
+        & $path plan -destroy -var-file="$varfile" -state="$stateFilePath" -var refresh_token="$refresh_token" -out "$statepath/$basename-destroy-plan"
 }
 
 foreach ($tfstateFile in $tfstateFiles)
