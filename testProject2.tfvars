@@ -7,4 +7,4 @@ max_instances    = 35
 cpu_limit        = 32
 memory_limit_mb  = 32000
 storage_limit_gb = 8192
-description = "This is the first project created with TF"
+description = "This is the second project created with TF"

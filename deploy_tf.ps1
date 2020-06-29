@@ -88,5 +88,10 @@ foreach ($tfstateFile in $tfstateFiles)
     if ($tfstatefile | Where-Object {$varfiles.basename -notcontains $_.basename})
     {
         Write-host "Detected that clean up is needed $tfstatefile"
+        $basename = $tfstatefile.BaseName
+        & $path --version
+        & $path init
+        & $path providers
+        & $path destory -state="/var/lib/jenkins/terraform/vra_tf_project/$basename.tfstate" -input=false $basename-plan
     }
 }
