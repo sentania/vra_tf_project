@@ -28,7 +28,7 @@ resource "vra_project" "this" {
   members = var.users
   operation_timeout = 6000
 
-  machine_naming_template = "$${resource.name}-$${####}"
+  machine_naming_template = var.basename
 }
 
 data "vra_project" "this" {

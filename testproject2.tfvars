@@ -10,4 +10,4 @@ storage_limit_gb = 81920
 description = "This is a project created with TF"
 administrators = ["vradmins@int.sentania.net"]
 users = ["vrausers@int.sentania.net"]
-
+basename =  "$${resource.name}-$${#####}"

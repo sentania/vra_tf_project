@@ -20,3 +20,4 @@ variable "storage_limit_gb" {}
 variable "description" {}
 variable "administrators" {}
 variable "users" {}
+variable "basename" {}
