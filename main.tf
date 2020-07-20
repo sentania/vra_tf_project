@@ -3,6 +3,8 @@ provider "vra" {
   refresh_token = var.refresh_token
   insecure      = var.insecure
 }
+provider "nsx" {
+}
 
 data "vra_zone" "this" {
       name = var.zone_name
