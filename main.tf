@@ -47,6 +47,6 @@ resource "vra_network_profile" "firewall_rules" {
   }
 }
 
-data "vra_network_profile" "this" {
+data "vra_network_profile" "firewall_rules" {
   name = firewall_rules.this.name
 }
