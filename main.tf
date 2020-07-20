@@ -37,7 +37,7 @@ data "vra_project" "this" {
 }
 
 resource "vra_network_profile" "firewall_rules" {
-  name        = "vra_project.this.name"
+  name        = var.project_name
   description = "Firewall rules are added to all machines provisioned."
   region_id   = data.vra_zone.this.id
 
