@@ -5,6 +5,9 @@ provider "vra" {
 }
 provider "nsxt" {
 }
+provider "nsx" {
+}
+
 
 data "vra_zone" "this" {
       name = var.zone_name
