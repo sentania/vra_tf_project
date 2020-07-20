@@ -20,7 +20,7 @@ resource "vra_project" "this" {
     memory_limit_mb  = var.memory_limit_mb
     storage_limit_gb = var.storage_limit_gb
   }
-
+  
   shared_resources = true
 
   administrators = var.administrators
