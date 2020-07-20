@@ -35,12 +35,27 @@ resource "vra_project" "this" {
 data "vra_project" "this" {
   name = vra_project.this.name
 }
+data "nsx_cloudAccount" "this" {
+      name = var.network_region
+}  
+data "vra_fabric_network" "subnet" {
+  filter = "name eq '${var.subnet_name}' and cloudAccountId eq '${data.nsx_cloudAccount.this.id}' "
+}
 
+data "vra_security_group" "this" {
+  filter = "name eq '${var.security_group_name}' and cloudAccountId eq '${data.nsx_cloudAccount.this.id}' "
+}
 resource "vra_network_profile" "firewall_rules" {
   name        = var.project_name
   description = "Firewall rules are added to all machines provisioned."
   region_id   = data.vra_zone.this.id
+  fabric_network_ids = [
+    data.vra_fabric_network.subnet.id
+  ]
 
+  security_group_ids = [
+    data.vra_security_group.this.id
+  ]
   tags {
     key   = "environment"
     value = "production"
