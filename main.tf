@@ -13,7 +13,6 @@ data "nsx_cloudAccount" "this" {
       name = var.network_region
 }  
 
-
 resource "vra_project" "this" {
 
   name        = var.project_name
