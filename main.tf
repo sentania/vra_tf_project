@@ -3,6 +3,9 @@ provider "vra" {
   refresh_token = var.refresh_token
   insecure      = var.insecure
 }
+provider "nsxt" {
+  version = "~> 2.2.1"
+}
 data "vra_zone" "this" {
       name = var.zone_name
 }  
