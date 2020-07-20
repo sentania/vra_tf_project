@@ -21,3 +21,6 @@ variable "description" {}
 variable "administrators" {}
 variable "users" {}
 variable "basename" {}
+variable "network_region" {}
+variable "subnet_name" {}
+variable "security_group_name" {}

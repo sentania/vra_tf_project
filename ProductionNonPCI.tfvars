@@ -11,3 +11,6 @@ description = "This is a project created with TF"
 administrators = ["vradmins@int.sentania.net","labadmins@int.sentania.net"]
 users = ["terraform@int.sentania.net"]
 basename =  "$${project.name}-$${userName}-$${####}"
+subnet_name = "w01-netseg03"
+security_group_name = "Production Non-PCI"
+network_region "WLD-NSX"
