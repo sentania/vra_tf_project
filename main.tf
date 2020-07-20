@@ -46,7 +46,3 @@ resource "vra_network_profile" "firewall_rules" {
     value = "production"
   }
 }
-
-data "vra_network_profile" "firewall_rules" {
-  name = firewall_rules.this.name
-}
