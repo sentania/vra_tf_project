@@ -39,7 +39,7 @@ data "vra_project" "this" {
 resource "vra_network_profile" "firewall_rules" {
   name        = "vra_project.this.name"
   description = "Firewall rules are added to all machines provisioned."
-  region_id   = data.nsx_cloudAccount.this.id
+  region_id   = data.vra_zone.this.id
 
   tags {
     key   = "environment"
