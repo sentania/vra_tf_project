@@ -21,6 +21,11 @@ variable "description" {}
 variable "administrators" {}
 variable "users" {}
 variable "basename" {}
-variable "network_region" {}
+variable "cloud_account" {}
+variable "cidr_prefix" {}
+variable "network_domain_name" {}
 variable "subnet_name" {}
-variable "security_group_name" {}
+variable "region" {}
+variable "cidr" {}
+variable "compliance" {}
+variable "environment" {}
