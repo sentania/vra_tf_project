@@ -32,7 +32,9 @@ resource "vra_project" "this" {
 
   machine_naming_template = var.basename
 }
-
+data "vra_project" "this" {
+  name = vra_project.this.name
+}
 
 data "vra_cloud_account_vsphere" "this" {
   name = var.cloud_account
