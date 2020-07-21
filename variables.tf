@@ -29,3 +29,4 @@ variable "region" {}
 variable "cidr" {}
 variable "compliance" {}
 variable "environment" {}
+variable "blueprint_name" {}
