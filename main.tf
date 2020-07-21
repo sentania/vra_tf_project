@@ -71,5 +71,3 @@ resource "vra_network_profile" "subnet_isolation" {
 
 }
 
-
-}
