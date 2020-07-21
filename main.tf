@@ -108,6 +108,6 @@ resource "vra_blueprint" "this" {
           networkType: routed
           constraints:
             - tag: "dynamicNetwork:Routed"
-            - tag: "environment:demoProject
+            - tag: "environment:demoProject"
   EOT
 }
