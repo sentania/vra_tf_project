@@ -1,6 +1,6 @@
 url = "https://vra8.lab.sentania.net/"
 zone_name = "WLD 1 / lab-vcf-w01-DC"
-project_name = "Demo Terraform Project"
+project_name = "Demo Terraform Project (2)"
 insecure = false
 priority         = 1
 max_instances    = 50
