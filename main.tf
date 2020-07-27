@@ -57,7 +57,7 @@ resource "vra_network_profile" "subnet_isolation" {
       datacenterId = "Datacenter:datacenter-3"
       edgeClusterRouterStateLink = "/resources/routers/67527579-f47d-4c83-8c33-0211f56a9f74"
       tier0LogicalRouterStateLink = "/resources/routers/79664a75-c966-4f8f-a5d7-4065f4fb1652"
-      onDemandNetworkIPAssignmentType = "mixed"
+      onDemandNetworkIPAssignmentType = "static"
   }
 
   tags {
@@ -69,4 +69,45 @@ resource "vra_network_profile" "subnet_isolation" {
     value = var.environment
   }
 
+}
+
+resource "vra_blueprint" "this" {
+  name        = var.blueprint_name
+  description = "Created by vRA terraform provider"
+
+  project_id = data.vra_project.this.id
+
+  content = <<-EOT
+    formatVersion: 1
+    inputs: {}
+    resources:
+      Cloud_SecurityGroup_1:
+        type: Cloud.SecurityGroup
+        properties:
+          constraints:
+            - tag: "sg:RiskyBusiness"
+          securityGroupType: existing
+      Cloud_Machine_1:
+        type: Cloud.Machine
+        properties:
+          image: CentOS7
+          flavor: Small
+          networks:
+            - network: "$${resource.Cloud_NSX_Network_1.id}"
+              securityGroups:
+                - "$${resource.Cloud_SecurityGroup_1.id}"
+          customizationSpec: custSpec-CentOS7
+          tags:
+            - key: protection
+              value: bkupnoCred
+            - key: operatingSystem
+              value: centOS
+      Cloud_NSX_Network_1:
+        type: Cloud.NSX.Network
+        properties:
+          networkType: routed
+          constraints:
+            - tag: "dynamicNetwork:Routed"
+            - tag: "environment:production"
+  EOT
 }
