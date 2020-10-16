@@ -32,6 +32,3 @@ resource "vra_project" "this" {
 
   machine_naming_template = var.basename
 }
-data "vra_project" "this" {
-  name = vra_project.this.name
-}

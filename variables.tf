@@ -1,18 +1,9 @@
-variable "refresh_token" {
-}
-
-variable "url" {
-}
-
+variable "refresh_token" {}
+variable "url" {}
 variable "insecure" {}
-
-variable "zone_name" {
-}
-
+variable "zone_name" {}
 variable "project_name" {}
-
 variable "priority" {}
-
 variable "max_instances" {}
 variable "cpu_limit" {}
 variable "memory_limit_mb" {}
