@@ -50,7 +50,7 @@ $varfiles = Get-ChildItem -Path . -Filter *.tfvars
 $tfstateFiles = get-childitem -path $statePath -Filter *.tfstate
 if ( [environment]::OSVersion.Platform -eq 'Unix')
     {
-        $path = '/usr/local/bin/terraform.12.26'
+        $path = '/usr/local/bin/terraform.13.4'
         Write-host "Linux system detected - setting path to: $path"
         
     }
