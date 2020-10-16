@@ -71,11 +71,23 @@ Write-host "$varfilesCount var files found:"
 foreach ($varfile in $varfiles)
 {
     Write-host "$varfile.basename"
-}    
+}
+foreach ($tfstateFile in $tfstateFiles)
+{
+    Write-host "Purging deleted terraform deployments...."
+    if ($tfstatefile | Where-Object {$varfiles.basename -notcontains $_.basename})
+    {
+        Write-host "Detected that clean up is needed for: $tfstatefile"
+        $basename = $tfstatefile.BaseName
+        & $path --version
+        & $path init
+        & $path providers
+        & $path apply -input=false -auto-approve $statepath/$basename-destroy-plan
+    }
+}
 foreach ($varfile in $varfiles)
-{       
-        
-        Write-host "Applying terraform configuration"
+{
+        Write-host "Applying terraform configuration for: $basename"
         $basename = $varfile.BaseName
         $stateFilePath = "$statePath/$basename.tfstate"
         & $path --version
@@ -87,15 +99,3 @@ foreach ($varfile in $varfiles)
         & $path plan -state="$stateFilePath" -destroy -var-file="$varfile" -var refresh_token="$refresh_token" -out $statepath/$basename-destroy-plan
 }
 
-foreach ($tfstateFile in $tfstateFiles)
-{
-    if ($tfstatefile | Where-Object {$varfiles.basename -notcontains $_.basename})
-    {
-        Write-host "Detected that clean up is needed $tfstatefile"
-        $basename = $tfstatefile.BaseName
-        & $path --version
-        & $path init
-        & $path providers
-        & $path apply -input=false -auto-approve $statepath/$basename-destroy-plan
-    }
-}
