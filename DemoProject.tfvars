@@ -1,6 +1,6 @@
 url = "https://vra8.lab.sentania.net/"
 zone_name = "lab-comp01-Cloud-Zone"
-project_name = "Private Cloud - DemoProject"
+project_name = "Private Cloud - DemoProject (Live)"
 insecure = false
 priority         = 1
 max_instances    = 50
